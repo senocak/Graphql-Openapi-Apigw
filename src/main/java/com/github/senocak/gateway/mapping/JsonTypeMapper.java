@@ -16,6 +16,7 @@ import com.github.senocak.gateway.model.ObjectMeta;
 import com.github.senocak.gateway.model.ObjectRefType;
 import com.github.senocak.gateway.model.SchemaModel;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,16 +25,15 @@ import org.slf4j.LoggerFactory;
  * field names are renamed between JSON and GraphQL spelling and enum values are converted between backend values and GraphQL enum names.
  */
 public class JsonTypeMapper {
-	private static final Logger log = LoggerFactory.getLogger(JsonTypeMapper.class);
-	private final SchemaModel model;
+    private static final Logger log = LoggerFactory.getLogger(JsonTypeMapper.class);
+    private final SchemaModel model;
 
     public JsonTypeMapper(final SchemaModel model) {
         this.model = model;
     }
 
     /**
-     * Convert a raw JSON response into the shape expected by the GraphQL
-     * response shape of the given operation.
+     * Convert a raw JSON response into the shape expected by the GraphQL response shape of the given operation.
      */
     public Object toGraphQlResponse(final @NonNull GraphQlOperation operation, final Object rawJson) {
         final String rootTypeName = operation.responseRootTypeName();
@@ -50,8 +50,7 @@ public class JsonTypeMapper {
     }
 
     /**
-     * Convert a coerced GraphQL value into the JSON structure expected by the
-     * backend for the given GraphQL type.
+     * Convert a coerced GraphQL value into the JSON structure expected by the backend for the given GraphQL type.
      */
     public Object toRest(FieldType type, Object graphQlValue) {
         if (graphQlValue == null) {
@@ -82,7 +81,7 @@ public class JsonTypeMapper {
         return (converted != null) ? String.valueOf(converted) : "";
     }
 
-    private Object toGraphQl(final String typeName, final Object rawJson) {
+    private @Nullable Object toGraphQl(final String typeName, final Object rawJson) {
         switch (rawJson) {
             case null -> {
                 return null;
@@ -94,9 +93,7 @@ public class JsonTypeMapper {
                 }
                 return result;
             }
-            case Map<?, ?> map -> {
-                return toGraphQlObject(typeName, castMap(map));
-            }
+            case Map<?, ?> map -> toGraphQlObject(typeName, castMap(map));
             default -> log.debug("Expected object/array for type {} but got scalar {}", typeName, rawJson.getClass().getSimpleName());
         }
         return rawJson;

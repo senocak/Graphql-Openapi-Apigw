@@ -21,9 +21,8 @@ import org.springframework.util.StringUtils;
 import com.github.senocak.gateway.config.GatewayConfigurationException;
 
 /**
- * Loads Swagger UI document lists and individual Swagger 2.0/OpenAPI 3.x
- * specifications. Supports {@code classpath:}, {@code file:} and
- * {@code http(s):} locations.
+ * Loads Swagger UI document lists and individual Swagger 2.0/OpenAPI 3.x specifications.
+ * Supports {@code classpath:}, {@code file:} and {@code http(s):} locations.
  */
 @Component
 public class OpenApiLoader {
@@ -58,6 +57,7 @@ public class OpenApiLoader {
         return result.getOpenAPI();
     }
 
+    @NonNull
     private String readResource(final String location, final @NonNull ResourceLoader resourceLoader) {
         final Resource resource = resourceLoader.getResource(location);
         if (!resource.exists()) {
@@ -70,6 +70,7 @@ public class OpenApiLoader {
         }
     }
 
+    @NonNull
     private String describe(final SwaggerParseResult result) {
         if (result == null || result.getMessages() == null || result.getMessages().isEmpty()) {
             return "no parser messages";
@@ -88,5 +89,4 @@ public class OpenApiLoader {
         }
         return (path.endsWith("/")) ? path.substring(0, path.length() - 1) : path;
     }
-
 }

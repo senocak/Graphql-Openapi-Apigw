@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Sample Backend API", "version": "1.0.0"},
+  "paths": {
+    "/users": {
+      "get": {"operationId": "listUsers", "parameters": [
+        {"name": "page", "in": "query", "schema": {"type": "integer"}},
+        {"name": "size", "in": "query", "schema": {"type": "integer"}},
+        {"name": "status", "in": "query", "schema": {"$ref": "#/components/schemas/UserStatus"}}
+      ], "responses": {"200": {"description": "Users", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/User"}}}}}}},
+      "post": {"operationId": "createUser", "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}, "responses": {"201": {"description": "Created user", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}}}
+    },
+    "/users/{id}": {
+      "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}],
+      "get": {"operationId": "getUser", "responses": {"200": {"description": "User", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}}},
+      "put": {"operationId": "replaceUser", "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}, "responses": {"200": {"description": "Replaced user", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}}},
+      "patch": {"operationId": "updateUser", "requestBody": {"required": false, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}, "responses": {"200": {"description": "Updated user", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}}}},
+      "delete": {"operationId": "deleteUser", "responses": {"204": {"description": "Deleted"}}}
+    },
+    "/orders/{id}": {"get": {"operationId": "getOrder", "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "responses": {"200": {"description": "Order", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Order"}}}}}}},
+    "/customer/search": {"post": {"operationId": "searchCustomers", "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CustomerSearch"}}}}, "responses": {"200": {"description": "Customer search results", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Customer"}}}}}}}
+  },
+  "components": {
+    "schemas": {
+      "User": {"type": "object", "properties": {"id": {"type": "string", "format": "uuid"}, "name": {"type": "string"}, "email": {"type": "string", "format": "email"}, "status": {"$ref": "#/components/schemas/UserStatus"}, "tags": {"type": "array", "items": {"type": "string"}}, "manager": {"$ref": "#/components/schemas/User"}}},
+      "Order": {"type": "object", "properties": {"id": {"type": "string"}, "address": {"$ref": "#/components/schemas/Address"}, "lines": {"type": "array", "items": {"$ref": "#/components/schemas/OrderLine"}}}},
+      "Customer": {"type": "object", "properties": {"id": {"type": "string", "format": "uuid"}, "name": {"type": "string"}, "email": {"type": "string", "format": "email"}}},
+      "Address": {"type": "object", "properties": {"street": {"type": "string"}, "city": {"type": "string"}, "postalCode": {"type": "string"}}},
+      "OrderLine": {"type": "object", "properties": {"sku": {"type": "string"}, "quantity": {"type": "integer"}}},
+      "UserStatus": {"type": "string", "enum": ["ACTIVE", "INACTIVE", "PENDING"]},
+      "CustomerSearch": {"type": "object", "properties": {"name": {"type": "string"}, "email": {"type": "string", "format": "email"}}}
+    }
+  }
+}

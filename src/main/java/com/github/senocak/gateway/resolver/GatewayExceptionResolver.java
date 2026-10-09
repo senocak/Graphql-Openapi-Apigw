@@ -24,7 +24,6 @@ import com.github.senocak.gateway.client.GatewayException;
  * server side.
  */
 public class GatewayExceptionResolver implements DataFetcherExceptionResolver {
-
     private static final Logger log = LoggerFactory.getLogger(GatewayExceptionResolver.class);
 
     @Override
@@ -86,6 +85,7 @@ public class GatewayExceptionResolver implements DataFetcherExceptionResolver {
         return (environment.getField() != null) ? environment.getField().getName() : "unknown";
     }
 
+    @NonNull
     private static String rootCauseDescription(final @NonNull Throwable exception) {
         Throwable rootCause = exception.getCause();
         if (rootCause == null) {

@@ -1,5 +1,7 @@
 package com.github.senocak.gateway.client;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -82,12 +84,14 @@ public class GatewayException extends RuntimeException {
         return this.backendErrorDetails;
     }
 
+    @NonNull
     public static GatewayException fromStatus(int statusCode) {
         return fromStatus(statusCode, null);
     }
 
+    @NonNull
     public static GatewayException fromStatus(int statusCode, Object responseBody) {
-        Kind kind = switch (statusCode) {
+        final Kind kind = switch (statusCode) {
             case 400 -> Kind.BAD_REQUEST;
             case 401 -> Kind.UNAUTHORIZED;
             case 403 -> Kind.FORBIDDEN;
@@ -97,7 +101,7 @@ public class GatewayException extends RuntimeException {
             case 429 -> Kind.RATE_LIMITED;
             default -> Kind.SERVER_ERROR;
         };
-        Map<String, Object> details = new LinkedHashMap<>();
+        final Map<String, Object> details = new LinkedHashMap<>();
         String backendMessage = null;
         if (responseBody instanceof Map<?, ?> response) {
             Object resultCode = response.get("resultCode");
@@ -114,12 +118,11 @@ public class GatewayException extends RuntimeException {
                 details.put("resultMessage", backendMessage);
             }
         }
-        return new GatewayException(kind, statusCode, "Backend responded with status " + statusCode,
-                backendMessage, details);
+        return new GatewayException(kind, statusCode, "Backend responded with status " + statusCode, backendMessage, details);
     }
 
-    private static void copyNonBlankString(Map<?, ?> source, Map<String, Object> destination, String field) {
-        Object value = source.get(field);
+    private static void copyNonBlankString(final @NonNull Map<?, ?> source, final Map<String, Object> destination, final String field) {
+        final Object value = source.get(field);
         if (value instanceof String text && !text.isBlank()) {
             destination.put(field, text);
         }

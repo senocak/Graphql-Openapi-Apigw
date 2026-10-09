@@ -22,12 +22,13 @@ public record RestRequest(
         String mediaType,
         String backendBaseUrl) {
 
-    public RestRequest(String httpMethod, String pathWithQuery, MultiValueMap<String, String> headers, Object body, boolean hasBody) {
+    public RestRequest(final String httpMethod, final String pathWithQuery, final MultiValueMap<String, String> headers,
+                       final Object body, final boolean hasBody) {
         this(httpMethod, pathWithQuery, headers, body, hasBody, null, null);
     }
 
-    public RestRequest(String httpMethod, String pathWithQuery, MultiValueMap<String, String> headers, Object body,
-                       boolean hasBody, String mediaType) {
+    public RestRequest(final String httpMethod, final String pathWithQuery, final MultiValueMap<String, String> headers,
+                       final Object body, final boolean hasBody, final String mediaType) {
         this(httpMethod, pathWithQuery, headers, body, hasBody, mediaType, null);
     }
 }

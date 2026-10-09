@@ -28,6 +28,7 @@ public record SchemaModel(
         enums = unmodifiableOrderedMap(enums);
     }
 
+    @NonNull
     public static SchemaModel empty() {
         return new SchemaModel("", List.of(), Map.of(), Map.of());
     }

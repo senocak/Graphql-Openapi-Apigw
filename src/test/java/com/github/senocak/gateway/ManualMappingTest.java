@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -33,7 +34,7 @@ class ManualMappingTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @org.springframework.boot.test.web.server.LocalServerPort
+    @LocalServerPort
     private int port;
 
     @DynamicPropertySource
@@ -61,11 +62,10 @@ class ManualMappingTest {
         BACKEND.stop();
     }
 
-    private GraphQlTester tester() {
-        WebTestClient.Builder clientBuilder = this.webTestClient.mutate()
+    private @NonNull GraphQlTester tester() {
+        final WebTestClient.Builder clientBuilder = this.webTestClient.mutate()
                 .baseUrl("http://localhost:" + this.port + "/graphql");
-        return HttpGraphQlTester.builder(clientBuilder).headers(headers -> {
-        }).build();
+        return HttpGraphQlTester.builder(clientBuilder).headers(_ -> {}).build();
     }
 
     @Test

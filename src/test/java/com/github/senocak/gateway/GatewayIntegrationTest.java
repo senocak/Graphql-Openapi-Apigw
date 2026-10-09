@@ -22,11 +22,13 @@ import java.util.Map;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
 import org.springframework.http.HttpHeaders;
@@ -46,11 +48,11 @@ class GatewayIntegrationTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @org.springframework.boot.test.web.server.LocalServerPort
+    @LocalServerPort
     private int port;
 
     @DynamicPropertySource
-    static void backendEndpoint(DynamicPropertyRegistry registry) {
+    static void backendEndpoint(final @NonNull DynamicPropertyRegistry registry) {
         BACKEND.start();
         BACKEND.stubFor(get(urlPathEqualTo("/users"))
                 .willReturn(okJson("["

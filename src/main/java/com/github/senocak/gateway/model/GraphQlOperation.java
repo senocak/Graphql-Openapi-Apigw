@@ -50,6 +50,7 @@ public record GraphQlOperation(
                 .orElse(null);
     }
 
+    @NonNull
     public static GraphQlOperation renamed(final @NonNull GraphQlOperation source, final GatewayProperties.@NonNull ManualMapping mapping) {
         final String httpMethod = (mapping.method() != null) ? mapping.method().toUpperCase() : source.httpMethod();
         final String path = (mapping.path() != null) ? mapping.path() : source.pathTemplate();

@@ -252,7 +252,7 @@ Backend failures become GraphQL errors with a safe message, `status`, and `class
 ./mvnw package
 ```
 
-Tests use JUnit 5, Spring Boot Test, Spring GraphQL Test, Mockito, and WireMock. The integration tests exercise GraphQL-to-REST mapping against a local mock backend. Some existing tests expect `src/main/resources/openapi.json`; that fixture is not present in this checkout, so restore/provide it before expecting the entire test suite to pass.
+Tests use JUnit 5, Spring Boot Test, Spring GraphQL Test, Mockito, and WireMock. The integration tests exercise GraphQL-to-REST mapping against a local mock backend. Schema and integration tests load a shared sample OpenAPI document from `src/test/resources/openapi.json`; Maven places it on the test classpath as `openapi.json`. Keep this fixture aligned with the operation and schema expectations in `SchemaGenerationTest` and `GatewayIntegrationTest`.
 
 The project `pom.xml` targets Java 25, while the current Dockerfile uses a Java 21 build image. Align the Docker build image with the Maven Java target before using `docker compose up --build`.
 
