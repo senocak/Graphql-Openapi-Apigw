@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: graphql-openapi-apigw
@@ -6,6 +9,9 @@ spring:
       enabled: true
     http:
       path: /graphql
+  threads:
+    virtual:
+      enabled: true
 
 gateway:
   openapi:
@@ -27,6 +33,3 @@ gateway:
 logging:
   level:
     com.github.senocak.gateway.client.RestApiClient: INFO
-
-server:
-  port: 8080
