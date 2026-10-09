@@ -270,7 +270,7 @@ src/main/java/com/github/senocak/gateway/
 └── security/     Inbound authentication propagation
 src/main/resources/
 ├── application.yml
-├── graphql/schema.graphqls
+├── graphqls/*.graphqls
 └── *.http        API request examples
 src/test/java/com/github/senocak/gateway/
     Matching unit and integration test packages

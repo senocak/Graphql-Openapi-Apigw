@@ -121,7 +121,7 @@ public class GatewayProperties {
         /**
          * Inbound request headers that are forwarded to the backend REST API. Never hard-code secrets here.
          */
-        private List<String> forward = new ArrayList<>(List.of("Authorization", "X-Correlation-Id", "Cmp-Session-Id"));
+        private List<String> forward = new ArrayList<>(List.of("Authorization", "X-Correlation-Id"));
 
         public List<String> getForward() {
             return this.forward;
