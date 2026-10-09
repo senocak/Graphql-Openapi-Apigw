@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: graphql-openapi-apigw
+  graphql:
+    graphiql:
+      enabled: true
+    http:
+      path: /graphql
+
+gateway:
+  openapi:
+    base-url: https://example.com.tr
+    specs:
+      - name: admin
+        location: ${gateway.openapi.base-url}/api/admin/v3/api-docs
+        base-url: ${gateway.openapi.base-url}
+        schema-output: ${user.dir}/graphqls/admin.graphqls
+  graphql:
+    generate-schema: true
+  headers:
+    forward:
+      - Authorization
+      - X-Correlation-Id
+      - Cmp-Session-Id
+  mappings: []
+
+logging:
+  level:
+    com.github.senocak.gateway.client.RestApiClient: INFO
+
+server:
+  port: 8080
+
+#codex-saka resume 01a110bb-5993-77d2-97e5-a8a269abfa67
